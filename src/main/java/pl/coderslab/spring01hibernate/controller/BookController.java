@@ -13,6 +13,7 @@ import pl.coderslab.spring01hibernate.dao.PublisherDao;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -82,8 +83,9 @@ public class BookController {
         return book.toString();
     }
 
-    @PutMapping("/update/{id}/{title}")
+    @RequestMapping("/update/{id}/{title}")
     @ResponseBody
+    @Transactional
     public String updateBook(@PathVariable long id, @PathVariable String title ) {
         Book book = bookDao.findById(id);
         book.setTitle(title);
@@ -91,11 +93,45 @@ public class BookController {
         return book.toString();
     }
 
-    @DeleteMapping("/delete/{id}")
+    @RequestMapping("/delete/{id}")
     @ResponseBody
     public String deleteBook(@PathVariable long id) {
         Book book = bookDao.findById(id);
         bookDao.delete(book);
         return "usunięto";
     }
+
+    @RequestMapping("/all")
+    @ResponseBody
+    @Transactional
+    public String findAll() {
+        List<Book> books = bookDao.findAll();
+        return books.toString();
+    }
+
+    @RequestMapping("/byminrating/{minRating}")
+    @ResponseBody
+    @Transactional
+    public String findAll(@PathVariable int minRating) {
+        List<Book> books = bookDao.findByRatingGT(minRating);
+        return books.toString();
+    }
+
+    @RequestMapping("/get/author/{id}")
+    @ResponseBody
+    @Transactional
+    public String findWithSpecificAuthor(@PathVariable Long id) {
+        List<Book> books = bookDao.findWithSpecificAuthor(id);
+        return books.toString();
+    }
+
+    @RequestMapping("/get/publisher/{id}")
+    @ResponseBody
+    @Transactional
+    public String findWithSpecificPublisher(@PathVariable Long id) {
+        List<Book> books = bookDao.findWithSpecificPublisher(id);
+        return books.toString();
+    }
+
+
 }

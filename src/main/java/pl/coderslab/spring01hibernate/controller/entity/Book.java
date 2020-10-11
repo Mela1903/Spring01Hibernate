@@ -15,7 +15,6 @@ public class Book {
     private String description;
 
     @ManyToOne
-    @JoinTable(name = "author_book")
     private Publisher publisher;
 
     @ManyToMany
