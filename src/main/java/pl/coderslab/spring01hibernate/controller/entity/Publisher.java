@@ -14,9 +14,19 @@ public class Publisher {
     private String name;
 
     @OneToMany(mappedBy = "publisher")
+
     private List<Book> books = new ArrayList<>();
 
+
     public Publisher() {
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     public long getId() {
@@ -33,5 +43,13 @@ public class Publisher {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Publisher{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

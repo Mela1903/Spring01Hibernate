@@ -1,8 +1,8 @@
 package pl.coderslab.spring01hibernate.dao;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import pl.coderslab.spring01hibernate.controller.entity.Book;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -14,7 +14,7 @@ public class BookDao {
     @PersistenceContext
     EntityManager entityManager;
 
-    public void saveBook(Book book) {
+    public void save(Book book) {
         entityManager.persist(book);
     }
 
@@ -29,6 +29,12 @@ public class BookDao {
     public void delete(Book book) {
         entityManager.remove(entityManager.contains(book) ?
                 book : entityManager.merge(book));
+    }
+
+    public Book findBookWithPublisherById(Long id) {
+        Book book = findById(id);
+        Hibernate.initialize(book.getPublisher());
+        return entityManager.find(Book.class, id);
     }
 
 }

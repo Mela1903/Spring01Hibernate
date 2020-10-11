@@ -2,7 +2,6 @@ package pl.coderslab.spring01hibernate.dao;
 
 import org.springframework.stereotype.Repository;
 import pl.coderslab.spring01hibernate.controller.entity.Author;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -14,7 +13,7 @@ public class AuthorDao {
     @PersistenceContext
     EntityManager entityManager;
 
-    public void saveAuthor(Author author) {
+    public void save(Author author) {
         entityManager.persist(author);
     }
 

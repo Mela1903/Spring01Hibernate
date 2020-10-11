@@ -1,6 +1,8 @@
 package pl.coderslab.spring01hibernate.controller.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -13,7 +15,11 @@ public class Book {
     private String description;
 
     @ManyToOne
+    @JoinTable(name = "author_book")
     private Publisher publisher;
+
+    @ManyToMany
+    private List<Author> author = new ArrayList<>();
 
     public Book() {
     }
@@ -42,8 +48,18 @@ public class Book {
         return publisher;
     }
 
-    public void setPublisher(Publisher publisher) {
+    public Book setPublisher(Publisher publisher) {
         this.publisher = publisher;
+        return this;
+    }
+
+    public Book setAuthor(List<Author> author) {
+        this.author = author;
+        return this;
+    }
+
+    public List<Author> getAuthor() {
+        return author;
     }
 
     public void setRating(int rating) {
@@ -56,5 +72,16 @@ public class Book {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", rating=" + rating +
+                ", description='" + description + '\'' +
+                ", author=" + author +
+                '}';
     }
 }

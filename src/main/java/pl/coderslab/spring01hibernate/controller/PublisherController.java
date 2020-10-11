@@ -1,15 +1,17 @@
 package pl.coderslab.spring01hibernate.controller;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.spring01hibernate.controller.entity.Author;
 import pl.coderslab.spring01hibernate.controller.entity.Publisher;
 import pl.coderslab.spring01hibernate.dao.AuthorDao;
 import pl.coderslab.spring01hibernate.dao.PublisherDao;
 
+import javax.transaction.Transactional;
+
 @Controller
+@RequestMapping(value = "/publisher", produces = "text/html; charset=UTF-8")
 public class PublisherController {
 
     private final PublisherDao publisherDao;
@@ -18,24 +20,24 @@ public class PublisherController {
         this.publisherDao = publisherDao;
     }
 
-    @RequestMapping(path = "/publisher/add", produces = "text/html; charset=UTF-8")
+    @RequestMapping("/add")
     @ResponseBody
-    public String newPublisher() {
+    public String addPublisher() {
         Publisher publisher = new Publisher();
-//        book.setTitle("Thinking in Java");
-//        book.setRating(5);
-//        book.setDescription("ble ble");
-        publisherDao.savePublisher(publisher);
+            publisher.setName("Helion");
+        publisherDao.save(publisher);
         return "dodano";
     }
-    @RequestMapping(path = "/publisher/get/{id}", produces = "text/html; charset=UTF-8")
+    @GetMapping("/get/{id}")
     @ResponseBody
+    @Transactional
     public String getPublisher(@PathVariable long id) {
         Publisher publisher = publisherDao.findById(id);
+        Hibernate.initialize(publisher.getBooks());
         return publisher.toString();
     }
 
-    @RequestMapping(path = "/publisher/update/{id}/{name}", produces = "text/html; charset=UTF-8")
+    @PutMapping("/update/{id}/{name}")
     @ResponseBody
     public String updateAuthor(@PathVariable long id, @PathVariable String name ) {
         Publisher publisher = publisherDao.findById(id);
@@ -44,11 +46,11 @@ public class PublisherController {
         return publisher.toString();
     }
 
-    @RequestMapping(path = "/publisher/delete/{id}", produces = "text/html; charset=UTF-8")
+    @DeleteMapping("/delete/{id}")
     @ResponseBody
     public String deleteBook(@PathVariable long id) {
         Publisher publisher = publisherDao.findById(id);
         publisherDao.delete(publisher);
-        return "usunięto";
+        return "usunięto publisher o id: " + publisher.getId();
     }
 }
