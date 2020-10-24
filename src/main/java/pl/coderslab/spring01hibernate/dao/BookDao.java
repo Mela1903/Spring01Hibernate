@@ -2,9 +2,7 @@ package pl.coderslab.spring01hibernate.dao;
 
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
-import pl.coderslab.spring01hibernate.controller.entity.Author;
-import pl.coderslab.spring01hibernate.controller.entity.Book;
-import pl.coderslab.spring01hibernate.controller.entity.Publisher;
+import pl.coderslab.spring01hibernate.entity.Book;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

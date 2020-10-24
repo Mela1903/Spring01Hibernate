@@ -1,15 +1,12 @@
 package pl.coderslab.spring01hibernate.controller;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import pl.coderslab.spring01hibernate.controller.entity.*;
+import pl.coderslab.spring01hibernate.entity.*;
 import pl.coderslab.spring01hibernate.dao.*;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/perdet", produces = "text/html; charset=UTF-8")

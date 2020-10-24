@@ -1,17 +1,12 @@
 package pl.coderslab.spring01hibernate.controller;
 
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pl.coderslab.spring01hibernate.controller.entity.Author;
-import pl.coderslab.spring01hibernate.controller.entity.Person;
-import pl.coderslab.spring01hibernate.dao.AuthorDao;
+import pl.coderslab.spring01hibernate.entity.Person;
 import pl.coderslab.spring01hibernate.dao.PersonDao;
-
-import javax.transaction.Transactional;
 
 @Controller
 @RequestMapping(value = "/person", produces = "text/html; charset=UTF-8")

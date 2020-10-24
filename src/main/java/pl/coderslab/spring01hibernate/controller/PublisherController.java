@@ -2,14 +2,16 @@ package pl.coderslab.spring01hibernate.controller;
 
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.coderslab.spring01hibernate.controller.entity.Author;
-import pl.coderslab.spring01hibernate.controller.entity.Book;
-import pl.coderslab.spring01hibernate.controller.entity.Publisher;
-import pl.coderslab.spring01hibernate.dao.AuthorDao;
+import pl.coderslab.spring01hibernate.entity.Book;
+import pl.coderslab.spring01hibernate.entity.Publisher;
 import pl.coderslab.spring01hibernate.dao.PublisherDao;
+import pl.coderslab.spring01hibernate.repository.PublisherRepository;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -17,9 +19,11 @@ import java.util.List;
 public class PublisherController {
 
     private final PublisherDao publisherDao;
+    private final PublisherRepository publisherRepository;
 
-    public PublisherController(PublisherDao publisherDao) {
+    public PublisherController(PublisherDao publisherDao, PublisherRepository publisherRepository) {
         this.publisherDao = publisherDao;
+        this.publisherRepository = publisherRepository;
     }
 
     @RequestMapping("/add")
@@ -57,11 +61,48 @@ public class PublisherController {
         return "usunięto publisher o id: " + publisher.getId();
     }
 
-    @RequestMapping("/all")
+    @GetMapping("/all")
+    public String findAll() {
+        return "publisher/list";
+    }
+
+    @GetMapping("/addform")
+    public String addFormToPublisher(Model m) {
+        m.addAttribute("publisher", new Publisher());
+        return "publisher/add-form";
+    }
+
+    @PostMapping("/addform")
+    public String addFormPost(@ModelAttribute("publisher") @Valid Publisher publisher, BindingResult result, Model m){
+        if (result.hasErrors()){
+            return "publisher/add-form";
+        }
+
+        this.publisherDao.save(publisher);
+        m.addAttribute("publisher", publisher);
+        return "redirect:all";
+    }
+
+    @ModelAttribute("publishers")
+    public List<Publisher> publishers(){
+        return publisherDao.findAll();
+    }
+
+    @GetMapping("/findbynip/{nip}")
     @ResponseBody
     @Transactional
-    public String findAll() {
-        List<Publisher> publishers = publisherDao.findAll();
-        return publishers.toString();
+    public String getByNip(@PathVariable String nip) {
+        Publisher publisher = this.publisherRepository.findOneByNip(nip);
+        return publisher.toString();
+
+    }
+
+    @GetMapping("/findbyregon/{regon}")
+    @ResponseBody
+    @Transactional
+    public String getByRegon(@PathVariable String regon) {
+        Publisher publisher = this.publisherRepository.findOneByRegon(regon);
+        return publisher.toString();
+
     }
 }

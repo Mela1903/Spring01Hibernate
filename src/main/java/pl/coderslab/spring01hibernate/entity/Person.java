@@ -1,4 +1,4 @@
-package pl.coderslab.spring01hibernate.controller.entity;
+package pl.coderslab.spring01hibernate.entity;
 
 import javax.persistence.*;
 

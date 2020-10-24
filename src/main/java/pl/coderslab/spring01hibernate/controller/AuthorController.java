@@ -2,23 +2,29 @@ package pl.coderslab.spring01hibernate.controller;
 
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import pl.coderslab.spring01hibernate.controller.entity.Author;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import pl.coderslab.spring01hibernate.entity.Author;
 import pl.coderslab.spring01hibernate.dao.AuthorDao;
+import pl.coderslab.spring01hibernate.entity.Book;
+import pl.coderslab.spring01hibernate.entity.Publisher;
+import pl.coderslab.spring01hibernate.repository.AuthorRepository;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/author", produces = "text/html; charset=UTF-8")
 public class AuthorController {
 
     private final AuthorDao authorDao;
+    private final AuthorRepository authorRepository;
 
-    public AuthorController(AuthorDao authorDao) {
+    public AuthorController(AuthorDao authorDao, AuthorRepository authorRepository) {
         this.authorDao = authorDao;
+        this.authorRepository = authorRepository;
     }
 
     @RequestMapping("/add")
@@ -55,5 +61,59 @@ public class AuthorController {
         Author author = authorDao.findById(id);
         authorDao.delete(author);
         return "usunięto";
+    }
+
+    @GetMapping("/addform")
+    public String addFormToAuthor(Model m) {
+        m.addAttribute("author", new Author());
+        return "author/add-form";
+    }
+
+    @PostMapping("/addform")
+    public String addFormPost(@ModelAttribute("author") @Valid Author author, BindingResult result, Model m){
+        if (result.hasErrors()){
+            return "author/add-form";
+        }
+
+        this.authorDao.save(author);
+        m.addAttribute("author", author);
+        return "redirect:all";
+    }
+
+    @ModelAttribute("authors")
+    public List<Author> authors(){
+        return authorDao.findAll();
+    }
+
+    @GetMapping("/all")
+    public String findAll() {
+        return "author/list";
+    }
+
+
+    @GetMapping("/findbyemail/{email}")
+    @ResponseBody
+    @Transactional
+    public String getByEmail(@PathVariable String email) {
+        Author author = this.authorRepository.findByEmail(email);
+        return author.toString();
+
+    }
+
+    @GetMapping("/findbypesel/{pesel}")
+    @ResponseBody
+    @Transactional
+    public String getByPesel(@PathVariable String pesel) {
+        Author author = this.authorRepository.findByPesel(pesel);
+        return author.toString();
+
+    }
+
+    @GetMapping("/findbylastname/{lastName}")
+    @ResponseBody
+    @Transactional
+    public String getByLastName(@PathVariable String lastName) {
+        List<Author> authors = this.authorRepository.findAllByLastName(lastName);
+        return authors.toString();
     }
 }

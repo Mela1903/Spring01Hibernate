@@ -8,37 +8,36 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
-    <title>List books</title>
+    <title>List publishers</title>
 </head>
 <body>
-Books:
+Publishers:
 <table border="1" style="column-rule-width: 40px">
     <tr>
         <th>Lp.</th>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Rating</th>
-        <th>Publisher</th>
+        <th>Name</th>
+        <th>NIP</th>
+        <th>REGON</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
 
-    <c:forEach items="${books}" var="book" varStatus="stat">
+    <c:forEach items="${publishers}" var="publish" varStatus="stat">
         <tr>
             <td>${stat.count}</td>
-            <td>${book.title}</td>
-            <td>${book.description}</td>
-            <td>${book.rating}</td>
-            <td>${book.publisher.name}</td>
+            <td>${publish.name}</td>
+            <td>${publish.nip}</td>
+            <td>${publish.regon}</td>
             <td>
-                <a href="update/${book.id}/${book.title}">
+                <a href="">
                     <button style="size: 15px">Edit</button>
                 </a>
             </td>
             <td>
-                <a href="delete/${book.id}"/>
+                <a href=""/>
                 <button style="size: 15px">Delete</button>
                 </a>
             </td>

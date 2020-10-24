@@ -17,21 +17,31 @@
     <div>
         <label for="title">Title</label>
         <form:input path="title"/>
+        <form:errors path="title"/>
     </div>
 
     <div>
         <label for="rating">Raiting</label>
         <form:input path="rating" type="number" min="0" max="10"/>
+        <form:errors path="rating"/>
     </div>
 
     <div>
         <label for="description">Description</label>
         <form:textarea path="description"/>
+        <form:errors path="description"/>
     </div>
 
     <div>
         <label for="publisher">Publisher</label>
         <form:select path="publisher.id" items="${publishers}" id="publisher" itemLabel="name" itemValue="id"/>
+        <form:errors path="publisher"/>
+    </div>
+
+    <div>
+        <label for="pages">Pages</label>
+        <form:input path="pages" type="number" min="0"/>
+        <form:errors path="pages"/>
     </div>
 
     <input type="submit">

@@ -29,7 +29,7 @@
     </div>
     <div>
         <label for="country">Country</label>
-        <form:select path="country" items="${countries}" />
+        <form:select path="country" items="${countries}"/>
     </div>
     <div>
         <label for="notes">Notes</label>

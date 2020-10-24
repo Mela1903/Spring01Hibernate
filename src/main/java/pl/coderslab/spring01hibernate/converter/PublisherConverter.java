@@ -3,7 +3,7 @@ package pl.coderslab.spring01hibernate.converter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
-import pl.coderslab.spring01hibernate.controller.entity.Publisher;
+import pl.coderslab.spring01hibernate.entity.Publisher;
 import pl.coderslab.spring01hibernate.dao.PublisherDao;
 
 public class PublisherConverter implements Converter<String, Publisher> {

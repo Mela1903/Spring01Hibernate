@@ -1,10 +1,14 @@
 package pl.coderslab.spring01hibernate.dao;
 
 import org.springframework.stereotype.Repository;
-import pl.coderslab.spring01hibernate.controller.entity.Author;
+import pl.coderslab.spring01hibernate.entity.Author;
+import pl.coderslab.spring01hibernate.entity.Book;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -30,4 +34,8 @@ public class AuthorDao {
                 author : entityManager.merge(author));
     }
 
+    public List<Author> findAll(){
+        Query query = entityManager.createQuery("SELECT b FROM Author b");
+        return query.getResultList();
+    }
 }

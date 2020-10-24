@@ -1,32 +1,18 @@
-package pl.coderslab.spring01hibernate.controller.entity;
+package pl.coderslab.spring01hibernate.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-
+import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "publishers")
-public class Publisher {
+@Table(name = "categories")
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotBlank
     private String name;
 
-    @OneToMany(mappedBy = "publisher")
-
-    private List<Book> books = new ArrayList<>();
-
-
-    public Publisher() {
-    }
-
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
+    public Category() {
     }
 
     public long getId() {
@@ -47,7 +33,7 @@ public class Publisher {
 
     @Override
     public String toString() {
-        return "Publisher{" +
+        return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
